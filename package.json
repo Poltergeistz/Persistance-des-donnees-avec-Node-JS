@@ -2,7 +2,7 @@
   "scripts": {
     "start": "node server.js"
   },
-  "name": "",
+  "name": "Blog",
   "version": "",
   "description": "Persistance-des-donnees-avec-Node-JS",
   "dependencies": {
