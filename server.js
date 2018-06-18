@@ -1,6 +1,11 @@
 // Modules
-express = require('express');
-app = express();
-mongodb = require('mongodb');
-ejs = require('ejs');
+let express = require('express');
+let mongodb = require('mongodb');
+let ejs = require('ejs');
+
+// Set express
+let app = express();
+app.set('view engine', 'ejs');
+
+// Routes
 
