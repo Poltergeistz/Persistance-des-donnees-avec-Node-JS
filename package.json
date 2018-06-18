@@ -17,6 +17,5 @@
   },
   "homepage": "https://github.com/Poltergeistz/Persistance-des-donnees-avec-Node-JS#readme",
   "dependencies": {
-    "yarn": "^1.7.0"
   }
 }
