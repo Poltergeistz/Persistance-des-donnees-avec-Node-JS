@@ -63,9 +63,9 @@ const assert = require('assert');
             //console.log("results: ", results)
             console.log("table posts:")
             results.forEach(function (obj, i) {
-                if (i == 5) {
+                
                     console.log(obj, i)
-                }
+                
             });
             client.close();
         });
@@ -99,7 +99,7 @@ function newPost(title, post, date, author) {
     var post = new Post(title, post, date, author);
     (async function () {
 
-        const url = 'mongodb://Phil76:SimplonERN76@ds161740.mlab.com:61740/mongo_blog';
+        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
         let client;
 
         try {
@@ -126,7 +126,6 @@ function newPost(title, post, date, author) {
             });
         }
     })();
-
 }
 
 newPost('tutoooo', 'je suis encore du texte', '12/06/05', 'bob')
