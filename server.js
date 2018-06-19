@@ -63,17 +63,38 @@ const assert = require('assert');
             //console.log("results: ", results)
             console.log("table posts:")
             results.forEach(function (obj, i) {
-                console.log(obj)
+                if (i == 5) {
+                    console.log(obj, i)
+                }
             });
             client.close();
         });
+
+
+        //recherche par id
+        /*var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+        var idToFind = "5b28e8e91309d90bb879f71c"; // Identifiant, sous forme de texte
+        var objToFind = {
+            _id: new MongoObjectID(idToFind)
+        };
+        db.collection("posts").findOne(objToFind, function (error, result) {
+            if (error) throw error;
+
+            console.log(result);
+        });*/
+
+
         //supprimer tous les documents
         /*db.collection("posts").remove(null, function (error, result) {
             if (error) throw error;
         });
         console.log("all posts removed")*/
         //client.close();
-        
+
     }
     //client.close();
 })();
+
+function newPost(title, post, date, author) {
+
+}
