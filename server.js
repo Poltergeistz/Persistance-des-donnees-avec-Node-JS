@@ -6,9 +6,12 @@ let ejs = require('ejs');
 let app = express();
 app.set('view engine', 'ejs');
 
-// Routes
+//appel du dossier public (css, stripts.js)
+app.use(express.static("public"));
+
+// Appel index.ejs (accueil)
 app.get('/', function (req, res) {
-    res.send('test');
+    res.render('index');
 })
 
 // Listen
