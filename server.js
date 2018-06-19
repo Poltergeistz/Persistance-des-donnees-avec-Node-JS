@@ -32,7 +32,7 @@ const assert = require('assert');
 
 (async function () {
     // Connection URL
-    const url = 'mongodb://Phil76:SimplonERN76@ds161740.mlab.com:61740/mongo_blog';
+    const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
     let client;
 
     try {
@@ -98,29 +98,21 @@ const assert = require('assert');
 function newPost(title, post, date, author) {
     var post = new Post(title, post, date, author);
     (async function () {
-
         const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
         let client;
-
         try {
             // Use connect method to connect to the Server
             client = await MongoClient.connect(url);
-
             const db = client.db('dbName');
-
         } catch (err) {
             console.log(err.stack);
         }
-
         if (client) {
             const dbName = 'mongo_blog'
             const db = client.db(dbName);
-
-
             //ajouter un document
             db.collection("posts").insert(post, null, function (error, results) {
                 if (error) throw error;
-
                 console.log("Le document a bien été inséré");
                 client.close();
             });
