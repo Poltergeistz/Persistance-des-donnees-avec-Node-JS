@@ -16,6 +16,27 @@ app.get('/', function (req, res) {
     res.render('index');
 })
 
+// POSTS
+
+// Get Post
+
+// Add Post
+
+// Update Post
+
+// Remove Post
+
+
+// COMMENTS
+
+// Get Comment
+
+// Add Comment
+
+// Update Comment
+
+// Remove Comment
+
 // Listen
 app.listen(8080, function (req, res) {
     console.log('Server Online')
