@@ -203,3 +203,13 @@ function removePost(id) {
 showLastPosts();
 //searchPost('5b2918b8c47b5811c031fbe3')
 //removePost('5b291860ea629f1182563fee')
+
+
+
+// test chai
+
+function tester(){
+    return 'hello world';
+};
+
+module.exports = tester;

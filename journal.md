@@ -24,7 +24,7 @@ prevu :
     -mise en place de 2 groupes : coté serveur creation de des fonction pour les commentaire et coté client pour afficher et suprimer les posts. 
 
     apres-midi : 
+    -Mise en place des test unitaire et deploiment serveur.
 
     Problemes : 
     -probleme de repartition d'equipe : seulement 2 tâches pour 5 personnes.
-    
