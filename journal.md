@@ -9,6 +9,8 @@
 
 19/06/2018 : 
 
-Matin : Suite au kata nous reprenons notre tache, Nous sommes parvenus a trouver une solution pour faire le lien avec NODE du coté de MLAB. Nous avons egalement revu notre MCD qui n'etait pas suffisament detaillé pour les besoins actuels.
+    Matin : Suite au kata nous reprenons notre tache, Nous sommes parvenus a trouver une solution pour faire le lien avec NODE du coté de MLAB. Nous avons egalement revu notre MCD qui n'etait pas suffisament detaillé pour les besoins actuels.
 
-apres-midi :  
+    apres-midi :  Revu des objectifs d'hier et mise en place du Kanban. mise en place des views et paufinage des fonctions de manipulation des DB.
+
+    problemes : problemes avec la doc,
