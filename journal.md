@@ -13,4 +13,12 @@
 
     apres-midi :  Revu des objectifs d'hier et mise en place du Kanban. mise en place des views et paufinage des fonctions de manipulation des DB.
 
-    problemes : problemes avec la doc,
+    problemes : problemes avec la doc,  
+
+20/06/2018 : 
+
+    Matin : Mise en place de fonction de supression, affichage multiple, total et rechercher un post. 
+
+    apres-midi : 
+
+    Problemes : 
