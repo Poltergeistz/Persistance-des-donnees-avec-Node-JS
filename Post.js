@@ -5,4 +5,3 @@ function Post (title, post, date, author) {
     this.author = author;
 }
 module.exports = Post;
-

@@ -2,6 +2,8 @@
 let express = require('express');
 let ejs = require('ejs');
 let Post = require('./Post');
+let Comment = require('./Comment');
+let User = require('./User');
 // Set express
 let app = express();
 app.set('view engine', 'ejs');
@@ -176,7 +178,7 @@ function removePost(id) {
         };
     })();
 }
-//newPost('tutoooo', 'je suis encore du texte', '12/06/05', 'billou');
+//newPost('tutoooo', 'je suis encore un test', '12/06/05', 'bobob');
 showLastPosts();
 //searchPost('5b2918b8c47b5811c031fbe3')
 //removePost('5b291860ea629f1182563fee')
