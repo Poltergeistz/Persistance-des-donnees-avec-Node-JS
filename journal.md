@@ -17,7 +17,11 @@
 
 20/06/2018 : 
 
-    Matin : Mise en place de fonction de supression, affichage multiple, total et rechercher un post. 
+prevu : 
+
+    Matin : 
+    -Mise en place de fonction de supression, affichage multiple, total et rechercher un post.
+    -mise en place de 2 groupes : coté serveur creation de des fonction pour les commentaire et coté client pour afficher et suprimer les posts. 
 
     apres-midi : 
 
