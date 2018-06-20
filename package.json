@@ -6,8 +6,10 @@
   "version": "",
   "description": "Persistance-des-donnees-avec-Node-JS",
   "dependencies": {
+    "chai": "^4.1.2",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
+    "mocha": "^5.2.0",
     "mongodb": "^3.0.10"
   }
 }

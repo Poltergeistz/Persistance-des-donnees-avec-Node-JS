@@ -27,3 +27,4 @@ prevu :
 
     Problemes : 
     -probleme de repartition d'equipe : seulement 2 tâches pour 5 personnes.
+    
