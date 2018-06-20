@@ -1,6 +1,8 @@
 {
   "scripts": {
+    "test": "mocha",
     "start": "node server.js"
+    
   },
   "name": "Blog",
   "version": "",
