@@ -24,5 +24,11 @@ prevu :
     -mise en place de 2 groupes : coté serveur creation de des fonction pour les commentaire et coté client pour afficher et suprimer les posts. 
 
     apres-midi : 
+    -Mise en place des test unitaire et deploiment serveur.
+    -fin de mise en place des fonctions des posts
 
     Problemes : 
+    -probleme de repartition d'equipe : seulement 2 tâches pour 5 personnes.
+    -Impression de passivité pour certains membres.
+    -probleme avec l'asynchrone de la fonction post.
+    -separation de la connection de mlab et des requetes.
