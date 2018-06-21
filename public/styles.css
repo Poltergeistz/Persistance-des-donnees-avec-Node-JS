@@ -1,0 +1,28 @@
+#titre {
+    font-size: 30px;
+    font-family: 'Cabin Sketch', cursive;
+    color: #28A745;
+}
+
+.fas  {
+    color: #28A745;
+}
+
+.card {
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.card-title {
+    text-align: center;
+}
+
+.card-link {
+    margin-left: 80%;
+}
+
+.italic {
+    color: #28A745;
+    font-style: italic;
+    font-size: 15px;
+}
