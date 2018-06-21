@@ -17,8 +17,6 @@
 
 20/06/2018 : 
 
-prevu : 
-
     Matin : 
     -Mise en place de fonction de supression, affichage multiple, total et rechercher un post.
     -mise en place de 2 groupes : coté serveur creation de des fonction pour les commentaire et coté client pour afficher et suprimer les posts. 
@@ -32,3 +30,13 @@ prevu :
     -Impression de passivité pour certains membres.
     -probleme avec l'asynchrone de la fonction post.
     -separation de la connection de mlab et des requetes.
+
+21/06/2018
+
+    Matin : CV avec affidel
+
+    Apres-midi : 
+    -fonction suprimer et affichage des 10 derniers posts operationelle
+
+    problemes :
+    - pas eu le temps de recontrer des problemes

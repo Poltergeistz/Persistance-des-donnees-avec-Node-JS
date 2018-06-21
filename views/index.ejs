@@ -1,9 +1,37 @@
 <%- include partials/header.ejs %>
-    <%- include partials/nav.ejs %>
+<%- include partials/nav.ejs %>
+
+    <div class="container">
+        <% posts.forEach(function(post, index){ %>
+        <div class="card bg-light" style="width: 35rem;">
+            <div class="card-body">
+                <h5 class="card-title"><%= post.title %></h5>
+                <p class="card-text"><%= post.post %></p>
+                <span class="italic">
+                    <%= post.author %>
+                </span>
+                <span class="italic">
+                    <%= post.date %>
+                </span>
+                <br>
+                <a href="#" class="card-link">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="edit/<%= post._id %>" class="card-link">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a href="delete/<%= post._id %>" class="card-link">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div>
+        </div>
+        <% }) %>
+        <a href="/post/new">Créer un nouveau post</a>
+    </div>
+
     
-<div>
-    <h1>TEST</h1>
-</div>
+
+    
 
 
 
@@ -12,4 +40,4 @@
 
 
 
-<%- include partials/footer.ejs %>
+    <%- include partials/footer.ejs %>
