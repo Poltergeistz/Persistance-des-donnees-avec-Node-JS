@@ -35,9 +35,9 @@ app.get('/', function (req, res) {
             db.collection("posts").find().toArray(function (error, results) {
                 if (error) throw error;
                 //console.log("results: ", results)
-                console.log("last 10 posts:")
+                //console.log("last 10 posts:")
                 for (var i = results.length - 1; i > results.length - 11; i--) {
-                    console.log(results[i], i)
+                    //console.log(results[i], i)
                     last10Post.push(results[i])
                 }
                 res.render('index', {
@@ -54,7 +54,49 @@ app.get('/', function (req, res) {
 // POSTS
 
 // Get Post
-
+app.get('/show/:id', function(req, res) {
+    //let id = req.params.id;
+    //console.log(id);
+  //data.posts.splice(data.posts[req.params.id], 1);
+  //commit(data);
+    (async function () {
+        let id = req.params.id
+        console.log(id)
+        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
+        let client;
+        try {
+            // Use connect method to connect to the Server
+            client = await MongoClient.connect(url);
+            const db = client.db('dbName');
+        } catch (err) {
+            console.log(err.stack);
+        }
+        if (client) {
+            const dbName = 'mongo_blog'
+            const db = client.db(dbName);
+            //supprimer un documents
+            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+            var idToFind = id; // Identifiant, sous forme de texte
+            //console.log(id);
+            var objToFind = {
+                _id: new MongoObjectID(idToFind)
+            }; // Objet qui va nous servir pour effectuer la recherche
+            db.collection("posts").find(objToFind).toArray(function (error, results) {
+                if (error) {
+                    throw error;
+                } else {
+                    //let postArr = [results]
+                    //console.log("document " + id + " removed");
+                    res.render('showPost', {
+                        posts: results
+                    });
+                    client.close();
+                } 
+            });
+        };
+    })();
+  
+});
 // Add Post
 
 // Update Post
@@ -92,6 +134,7 @@ app.get('/delete/:id', function(req, res) {
                 } else if (id) {
                     console.log("document " + id + " removed");
                     res.redirect('/');
+                    client.close();
                     /*res.render('index', {
                         posts: results
                     });*/

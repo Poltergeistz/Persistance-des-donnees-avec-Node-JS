@@ -13,11 +13,11 @@
                 <span><%= post.author %></span>
                 <span><%= post.date %></span>
                 <a href="edit/<%= post._id %>">Modifier</a>
-                <a href="delete/<%= post._id %>">Supprimer</a>
-                <a href="show/<%= post._id %>">Lire</a>
+                <a href="/delete/<%= post._id %>">Supprimer</a>
+                
                 <% }) %>
         </div>
-        <a href="/new">Créer un nouveau post</a>
+        <a href="/">retour</a>
     </div>
 
     
