@@ -2,8 +2,8 @@ var MongoClient = require('mongodb').MongoClient;
 
 var url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
 
-var dbName = 'revisions-node-blog';
-var c;
+var dbName = 'mongo_blog';
+
 function test(){
 MongoClient.connect(
   url,
@@ -16,21 +16,22 @@ MongoClient.connect(
     console.log('youpi');
     var posts = db.collection('posts');
 
-    posts.updateMany({ title: '1' }, { $set: { author: 'toto' } }, function(
+    /*posts.updateMany({ title: '1' }, { $set: { author: 'toto' } }, function(
       err,
       result
     ) {
         
-        c = "result";
+        
       console.log('updated');
-    });
-    posts.deleteOne({ title: '1' }, function(err, result) {
+    });*/
+    /*posts.deleteOne({ title: '1' }, function(err, result) {
       //console.log('Deleted:' + result.deletedCount);
-    });
-    posts.find({ title: '1' }).toArray(function(err, docs) {
+    });*/
+    posts.find({ title: 'test' }).toArray(function(err, docs) {
       console.log(docs);
+        db.close();
     });
   }
 );
-}.then( console.log("c: ",c))
+}
  test()

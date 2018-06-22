@@ -14,6 +14,8 @@ app.set('view engine', 'ejs');
 
 //appel du dossier public (css, stripts.js)
 app.use(express.static(__dirname + '/public'));
+const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
+const dbName = 'mongo_blog'
 //app.use('/static', express.static(__dirname + '/public'));
 // Appel index.ejs (accueil)
 app.get('/', function (req, res) {
@@ -30,7 +32,7 @@ app.get('/', function (req, res) {
         if (client) {
             const dbName = 'mongo_blog'
             const db = client.db(dbName);
-            let last10Post =[];
+            let last10Post = [];
             //afficher un document
             db.collection("posts").find().toArray(function (error, results) {
                 if (error) throw error;
@@ -41,8 +43,8 @@ app.get('/', function (req, res) {
                     last10Post.push(results[i])
                 }
                 res.render('index', {
-                        posts: last10Post
-                    });
+                    posts: last10Post
+                });
                 client.close();
             });
         }
@@ -53,11 +55,11 @@ app.get('/', function (req, res) {
 // POSTS
 
 // Get Post
-app.get('/show/:id', function(req, res) {
+app.get('/show/:id', function (req, res) {
     //let id = req.params.id;
     //console.log(id);
-  //data.posts.splice(data.posts[req.params.id], 1);
-  //commit(data);
+    //data.posts.splice(data.posts[req.params.id], 1);
+    //commit(data);
     (async function () {
         let id = req.params.id
         console.log(id)
@@ -90,22 +92,56 @@ app.get('/show/:id', function(req, res) {
                         posts: results
                     });
                     client.close();
-                } 
+                }
             });
         };
     })();
-  
+
 });
+// search post
+app.post('/search', function (req, res) {
+    let id = req.body.search;
+    console.log(id);
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            var db = client.db(dbName);
+            //console.log('youpi');
+            var posts = db.collection('posts');
+            posts.createIndex({"post":"text"});
+            posts.find({
+                $text: {$search: id}
+                //post: id
+            }).toArray(function (err, results) {
+                console.log(results)
+                if (results.length == 0){
+                    res.render('noresult');
+                    console.log("no result")
+                } else {
+                res.render('showPost', {
+                    posts: results
+                });
+                }
+                console.log(results);
+                client.close();
+            });
+        }
+    );
+})
 // Add Post
 
 // Update Post
 
 // Remove Post
-app.get('/delete/:id', function(req, res) {
+app.get('/delete/:id', function (req, res) {
     let id = req.params.id;
     console.log(id);
-  //data.posts.splice(data.posts[req.params.id], 1);
-  //commit(data);
+    //data.posts.splice(data.posts[req.params.id], 1);
+    //commit(data);
     (async function () {
         let id = req.params.id
         console.log(id)
@@ -143,7 +179,7 @@ app.get('/delete/:id', function(req, res) {
             });
         };
     })();
-  
+
 });
 
 // COMMENTS
@@ -348,7 +384,7 @@ function removePost(id) {
 
 // test chai
 
-function tester(){
+function tester() {
     return 'hello world';
 };
 
