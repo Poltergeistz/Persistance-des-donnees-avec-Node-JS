@@ -172,7 +172,36 @@ app.get('/newpost', function (req, res) {
 
 })
 // Update Post
-
+app.post('/editpost/:id', function (req, res) {
+    //let id = req.body.search;
+    var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    var postUser = {
+        title: req.body.title,
+        post: req.body.content,
+        author: req.body.author,
+        date: d
+    };
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            var db = client.db(dbName);
+            //console.log('youpi');
+            var posts = db.collection('posts');
+            db.collection("posts").update(req.params._id, null, function (error, results) {
+                if (error) {
+                    throw error;
+                } else {
+                    console.log("Le document a bien été inséré");
+                    client.close();
+                    res.redirect('/');
+                }
+            });
+        });
+});
 // Remove Post
 app.get('/delete/:id', function (req, res) {
     let id = req.params.id;
