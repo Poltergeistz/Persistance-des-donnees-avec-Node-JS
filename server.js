@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 //appel du dossier public (css, stripts.js)
 app.use(express.static(__dirname + '/public'));
 const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-const dbName = 'mongo_blog'
+const dbName = 'mongo_blog';
 //app.use('/static', express.static(__dirname + '/public'));
 // Appel index.ejs (accueil)
 app.get('/', function (req, res) {
@@ -137,12 +137,37 @@ app.post('/search', function (req, res) {
     );
 })
 // Add Post
-app.get('/addpost', function (req, res) {
+app.post('/addpost/', function (req, res) {
     //let id = req.body.search;
+    var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    var postUser = {
+        title: req.body.title,
+        post: req.body.content,
+        author: req.body.author,
+        date: d
+    };
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            var db = client.db(dbName);
+            //console.log('youpi');
+            var posts = db.collection('posts');
+            db.collection("posts").insert(postUser, null, function (error, results) {
+                if (error) {
+                    throw error;
+                } else {
+                    console.log("Le document a bien été inséré");
+                    client.close();
+                    res.redirect('/');
+                }
+            });
+        });
+});
 
-    res.render('/');
-
-})
 //new post inputs
 app.get('/newpost', function (req, res) {
     //let id = req.body.search;
