@@ -4,9 +4,12 @@
     color: #28A745;
 }
 
+#card1 {
+    height: 400px;
+}
+
 .card {
     margin: 0 auto;
-    height: 400px;
 }
 
 .card-title {
@@ -19,7 +22,7 @@
 }
 
 .postText {
-    height: 220px;
+    height: 270px;
     overflow: hidden;
 }
 
@@ -29,20 +32,8 @@
     font-size: 15px;
 }
 
-.btn-default {
-    border-color: #28A745;
-}
-
-.btn:hover{
-    color:white;
-}
-
 .page-item {
     margin: 4%;
-}
-
-.color {
-    color: white;
 }
 
 .foot {
