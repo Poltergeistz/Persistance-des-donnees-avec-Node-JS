@@ -56,10 +56,6 @@ app.get('/', function (req, res) {
 
 // Get Post
 app.get('/show/:id', function (req, res) {
-    //let id = req.params.id;
-    //console.log(id);
-    //data.posts.splice(data.posts[req.params.id], 1);
-    //commit(data);
     (async function () {
         let id = req.params.id
         console.log(id)
