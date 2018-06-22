@@ -38,6 +38,10 @@
     border-color: #28A745;
 }
 
+.btn:hover{
+    color:white;
+}
+
 .page-item {
     margin: 4%;
 }
