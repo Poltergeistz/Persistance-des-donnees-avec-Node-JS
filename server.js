@@ -13,8 +13,8 @@ app.use(bodyparser.urlencoded({
 app.set('view engine', 'ejs');
 
 //appel du dossier public (css, stripts.js)
-app.use(express.static("public"));
-
+app.use(express.static(__dirname + '/public'));
+//app.use('/static', express.static(__dirname + '/public'));
 // Appel index.ejs (accueil)
 app.get('/', function (req, res) {
     (async function () {
@@ -43,7 +43,6 @@ app.get('/', function (req, res) {
                 res.render('index', {
                         posts: last10Post
                     });
-
                 client.close();
             });
         }

@@ -1,34 +1,28 @@
 <%- include partials/header.ejs %>
-<%- include partials/nav.ejs %>
+<%- include partials/nav.ejs %> 
 
     <div class="container">
-        <div class="column">
-            <% posts.forEach(function(post, index){ %>
-                <h5>
-                    <%= post.title %>
-                </h5>
-                <p>
-                    <%= post.post %>
-                </p>
-                <span><%= post.author %></span>
-                <span><%= post.date %></span>
-                <a href="edit/<%= post._id %>">Modifier</a>
-                <a href="/delete/<%= post._id %>">Supprimer</a>
-                
-                <% }) %>
+        <% posts.forEach(function(post, index){ %>
+        <div class="card bg-light" style="width: 35rem;">
+            <div class="card-body">
+                <h5 class="card-title"><%= post.title %></h5>
+                <p class="card-text"><%= post.post %></p>
+                <span class="italic">
+                    <%= post.author %>
+                </span>
+                <span class="italic">
+                    <%= post.date %>
+                </span>
+                <br>
+                <a href="edit/<%= post._id %>" class="card-link">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a href="delete/<%= post._id %>" class="card-link">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div>
         </div>
+        <% }) %>
         <a href="/">retour</a>
     </div>
-
-    
-
-    
-
-
-
-
-
-
-
-
-    <%- include partials/footer.ejs %>
+<%- include partials/footer.ejs %>
