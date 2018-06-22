@@ -1,28 +1,26 @@
 #titre {
-    font-size: 30px;
+    font-size: 40px;
     font-family: 'Cabin Sketch', cursive;
     color: #28A745;
 }
 
 .card {
     margin: 0 auto;
-    margin-top: 5%;
+    height: 400px;
 }
 
 .card-title {
     text-align: center;
+    font-weight: bold;
 }
 
-.card-link {
-    margin-left: 80%;
+.card-text {
+    color: #7B7B7B;
 }
 
-.iconPost {
-    margin-left: -5%;
-}
-
-.fas  {
-    color: #28A745;
+.postText {
+    height: 220px;
+    overflow: hidden;
 }
 
 .italic {
@@ -52,7 +50,5 @@
     text-align: center;
 }
 
-.container-fluid {
-    margin-bottom: 6%;
-}
+
 

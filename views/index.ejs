@@ -4,29 +4,29 @@
     <div class="container-fluid">
         <div class="row">
             <% posts.forEach(function(post, index){ %>
-                <div class="card bg-light col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                <div class="card bg-light col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 mb-5 mt-5">
                     <div class="card-body m-2">
-                        <h5 class="card-title"><%= post.title %></h5>
+                        <h5 class="card-title text-success"><%= post.title %></h5>
+                        <div class="postText">
                         <p class="card-text"><%= post.post %></p>
+                        </div>
+                        <hr>
                         <span class="italic">
                             <%= post.author %>
-                        </span>
+                        </span>                    
                         <span class="italic">
                             <%= post.date %>
                         </span>
-                        <hr>
-                        <div class="iconPost">
-                        <a href="show/<%= post._id %>" class="card-link">
-                            <i class="fas fa-eye"></i>
+                        <a href="show/<%= post._id %>" class="btn btn-outline-success float-right">
+                            <i class="fas fa-eye mr-1"></i> Read
                         </a>
-                        <a href="edit/<%= post._id %>" class="card-link">
+                        <!-- <a href="edit/<%= post._id %>" class="card-link">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
                         <a href="delete/<%= post._id %>" class="card-link">
                             <i class="fas fa-trash-alt"></i>
-                        </a>
-                        </div>
-                    </div>
+                        </a> -->
+                    </div> 
                 </div>
             <% }) %>
         </div>
