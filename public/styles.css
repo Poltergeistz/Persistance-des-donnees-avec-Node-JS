@@ -4,21 +4,28 @@
     color: #28A745;
 }
 
-.fas  {
-    color: #28A745;
-}
-
 .card {
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 5%
 }
 
+.card-body {
+    margin: 2%;
+}
 .card-title {
     text-align: center;
 }
 
 .card-link {
     margin-left: 80%;
+}
+
+.iconPost {
+    margin-left: -5%;
+}
+
+.fas  {
+    color: #28A745;
 }
 
 .italic {
@@ -30,3 +37,8 @@
 .btn-default {
     border-color: #28A745;
 }
+
+.page-item {
+    margin: 4%;
+}
+
