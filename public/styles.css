@@ -34,8 +34,11 @@
     font-size: 15px;
 }
 
+.btn-default {
+    border-color: #28A745;
+}
+
 .page-item {
     margin: 4%;
 }
-
 

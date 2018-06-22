@@ -112,19 +112,23 @@ app.post('/search', function (req, res) {
             var db = client.db(dbName);
             //console.log('youpi');
             var posts = db.collection('posts');
-            posts.createIndex({"post":"text"});
+            posts.createIndex({
+                "post": "text"
+            });
             posts.find({
-                $text: {$search: id}
+                $text: {
+                    $search: id
+                }
                 //post: id
             }).toArray(function (err, results) {
                 console.log(results)
-                if (results.length == 0){
+                if (results.length == 0) {
                     res.render('noresult');
                     console.log("no result")
                 } else {
-                res.render('showPost', {
-                    posts: results
-                });
+                    res.render('showPost', {
+                        posts: results
+                    });
                 }
                 console.log(results);
                 client.close();
@@ -133,7 +137,19 @@ app.post('/search', function (req, res) {
     );
 })
 // Add Post
+app.get('/addpost', function (req, res) {
+    //let id = req.body.search;
 
+    res.render('/');
+
+})
+//new post inputs
+app.get('/newpost', function (req, res) {
+    //let id = req.body.search;
+
+    res.render('newpost');
+
+})
 // Update Post
 
 // Remove Post
