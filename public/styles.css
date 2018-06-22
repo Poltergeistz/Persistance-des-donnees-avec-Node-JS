@@ -6,12 +6,9 @@
 
 .card {
     margin: 0 auto;
-    margin-top: 5%
+    margin-top: 5%;
 }
 
-.card-body {
-    margin: 2%;
-}
 .card-title {
     text-align: center;
 }
@@ -44,5 +41,9 @@
 
 .page-item {
     margin: 4%;
+}
+
+.color {
+    color: white;
 }
 
