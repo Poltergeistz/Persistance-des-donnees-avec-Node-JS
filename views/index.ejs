@@ -4,10 +4,10 @@
     <div class="container-fluid">
         <div class="row">
             <% posts.forEach(function(post, index){ %>
-                <div class="card bg-light col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 mb-5 mt-5">
+                <div id="card1" class="card bg-light col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 mb-5 mt-5">
                     <div class="card-body m-2">
-                        <h5 class="card-title text-success"><%= post.title %></h5>
                         <div class="postText">
+                        <h5 class="card-title text-success"><%= post.title %></h5>
                         <p class="card-text"><%= post.post %></p>
                         </div>
                         <hr>
@@ -20,12 +20,6 @@
                         <a href="show/<%= post._id %>" class="btn btn-outline-success float-right">
                             <i class="fas fa-eye mr-1"></i> Read
                         </a>
-                        <!-- <a href="edit/<%= post._id %>" class="card-link">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>
-                        <a href="delete/<%= post._id %>" class="card-link">
-                            <i class="fas fa-trash-alt"></i>
-                        </a> -->
                     </div> 
                 </div>
             <% }) %>
@@ -56,5 +50,7 @@
         </ul>
     </nav> -->
 
-
+<footer class=" mt-5 bg-success">
+    <span>Guillaume, Philippe, David, Rachid, Geoffrey</span>
+</footer>
 <%- include partials/footer.ejs %>
