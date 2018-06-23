@@ -36,7 +36,45 @@
     Matin : CV avec affidel
 
     Apres-midi : 
-    -fonction suprimer et affichage des 10 derniers posts operationelle
+    -fonction suprimer et affichage des 10 derniers posts operationelle.
+    -mise en place de l'affichage d'un seul post
 
     problemes :
     - pas eu le temps de recontrer des problemes
+    - quelques soucis avec bootstrap
+    - manque de connaissance.
+
+22/06/2018
+
+    matin : 
+    - division du groupe, une partie continue mongo l'autre commence MySQL
+    - finalisation de la partie mongo
+    -ajout du css
+
+    apres-midi :
+    -
+
+    problemes :
+    - 
+
+23/06/2018
+
+    matin : 
+    -
+
+    apres-midi :
+    -
+
+    problemes :
+    -
+
+24/06/2018
+
+    matin : 
+    -
+
+    apres-midi :
+    -
+
+    problemes :
+    -
