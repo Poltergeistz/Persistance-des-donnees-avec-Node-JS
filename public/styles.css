@@ -1,24 +1,33 @@
 #titre {
-    font-size: 30px;
+    font-size: 40px;
     font-family: 'Cabin Sketch', cursive;
     color: #28A745;
 }
 
-.fas  {
-    color: #28A745;
+#post_content {
+    min-height: 300px;
+}
+
+#card1 {
+    height: 400px;
 }
 
 .card {
     margin: 0 auto;
-    margin-top: 50px;
 }
 
 .card-title {
     text-align: center;
+    font-weight: bold;
 }
 
-.card-link {
-    margin-left: 80%;
+.card-text {
+    color: #7B7B7B;
+}
+
+.postText {
+    height: 270px;
+    overflow: hidden;
 }
 
 .italic {
@@ -26,3 +35,16 @@
     font-style: italic;
     font-size: 15px;
 }
+
+.page-item {
+    margin: 4%;
+}
+
+footer {
+    color: white;
+    text-align: center;
+}
+
+
+
+
