@@ -36,15 +36,9 @@
     margin: 4%;
 }
 
-footer {
+.foot {
     color: white;
     text-align: center;
-}
-
-.foot {
-    position:absolute; 
-    bottom:0;
-    width: 100%;
 }
 
 
