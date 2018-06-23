@@ -4,6 +4,10 @@
     color: #28A745;
 }
 
+#post_content {
+    min-height: 300px;
+}
+
 #card1 {
     height: 400px;
 }
