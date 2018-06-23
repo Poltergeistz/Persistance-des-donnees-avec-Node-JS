@@ -36,10 +36,17 @@
     margin: 4%;
 }
 
-.foot {
+footer {
     color: white;
     text-align: center;
 }
+
+.foot {
+    position:absolute; 
+    bottom:0;
+    width: 100%;
+}
+
 
 
 

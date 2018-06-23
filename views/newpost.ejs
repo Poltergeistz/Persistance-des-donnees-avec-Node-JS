@@ -1,6 +1,6 @@
 <%- include partials/header.ejs %>
 <%- include partials/nav.ejs %> 
-    <div class="container">
+    <div class="container mt-5">
         <form action="/addpost" method="post">
                 <div class="form-group">
                     <label for="post_title">Title</label>
@@ -16,6 +16,11 @@
                 </div>
                 <button type="submit" class="btn btn-outline-success float-right">Submit</button>
             </form>
-        <a href="/" class="btn btn-outline-success">Back</a>
+        <a href="/" class="btn btn-outline-success">
+            <i class="fas fa-angle-double-left"></i>
+        </a>
     </div>
+    <footer class="foot mt-5 bg-success">
+        <span>Guillaume, Philippe, David, Rachid, Geoffrey</span>
+    </footer>
 <%- include partials/footer.ejs %>
