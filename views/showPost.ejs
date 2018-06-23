@@ -14,15 +14,15 @@
                     <%= post.date %>
                 </span>
                 <br>
-                <a href="/newpost/<%= post._id %>" class="card-link">
+                <a href="/editpage/<%= post._id %>" class="card-link">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
-                <a href="delete/<%= post._id %>" class="card-link">
+                <a href="/delete/<%= post._id %>" class="card-link">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </div>
         </div>
         <% }) %>
-        <a href="/" class="btn btn-outline-success">retour</a>
+        <a href="/" class="btn btn-outline-success">Back</a>
     </div>
 <%- include partials/footer.ejs %>

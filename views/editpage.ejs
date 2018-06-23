@@ -4,15 +4,15 @@
         <form action="/editpost" method="post">
                 <div class="form-group">
                     <label for="post_title">Title</label>
-                    <input type="text" name="title" id="post_title" class="form-control">
+                    <input type="text" name="title" id="post_title" class="form-control" value =" <%= post.title %> ">
                 </div>
                 <div class="form-group">
                     <label for="post_title">Author</label>
-                    <input type="text" name="author" id="post_title" class="form-control">
+                    <input type="text" name="author" id="post_title" class="form-control" value =" <%= post.author %> ">
                 </div>
                 <div class="form-group">
                     <label for="post_content">Content:</label>
-                    <textarea name="content" id="post_content" class="form-control"></textarea>
+                    <textarea name="content" id="post_content" class="form-control"><%= post.post %> </textarea>
                 </div>
                 <button type="submit" class="btn btn-outline-success float-right">Submit</button>
             </form>

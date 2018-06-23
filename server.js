@@ -16,6 +16,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
 const dbName = 'mongo_blog';
+let tmpId;
 //app.use('/static', express.static(__dirname + '/public'));
 // Appel index.ejs (accueil)
 app.get('/', function (req, res) {
@@ -132,6 +133,10 @@ app.post('/search', function (req, res) {
         }
     );
 })
+//new post inputs
+app.get('/newpost', function (req, res) {
+    res.render('newpost');
+})
 // Add Post
 app.post('/addpost/', function (req, res) {
     //let id = req.body.search;
@@ -164,23 +169,10 @@ app.post('/addpost/', function (req, res) {
         });
 });
 
-//new post inputs
-app.get('/newpost', function (req, res) {
-    //let id = req.body.search;
 
-    res.render('newpost');
-
-})
 // Update Post
-app.post('/editpost/:id', function (req, res) {
-    //let id = req.body.search;
-    var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var postUser = {
-        title: req.body.title,
-        post: req.body.content,
-        author: req.body.author,
-        date: d
-    };
+app.get('/editpage/:id', function (req, res) {
+    let id = req.params.id;
     MongoClient.connect(
         url,
         function (err, client) {
@@ -191,16 +183,67 @@ app.post('/editpost/:id', function (req, res) {
             var db = client.db(dbName);
             //console.log('youpi');
             var posts = db.collection('posts');
-            db.collection("posts").update(req.params._id, null, function (error, results) {
+
+            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+            var idToFind = id; // Identifiant, sous forme de texte
+            tmpId = idToFind;
+            var objToFind = {
+                _id: new MongoObjectID(idToFind)
+            };
+            db.collection("posts").findOne(objToFind, function (error, results) {
+                console.log(results)
+                if (error) {
+                    throw error;
+                } else {
+                    res.render('editpage', {
+                        post: results
+                    });
+                }
+            });
+        })
+})
+
+app.post('/editpost/', function (req, res) {
+    //let id = req.body.search;
+    console.log(req.body);
+    var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    var postUser = {
+        title: req.body.title,
+        post: req.body.content,
+        author: req.body.author,
+        date: "updated " + d
+    };
+    var id = tmpId;
+    console.log("ID",id)
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            var db = client.db(dbName);
+            //console.log('youpi');
+            var posts = db.collection('posts');
+            db.collection("posts").insert(postUser, null, function (error, results) {
                 if (error) {
                     throw error;
                 } else {
                     console.log("Le document a bien été inséré");
-                    client.close();
                     res.redirect('/');
+                    //supprimer un documents
+                    var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+                    var idToFind = id; // Identifiant, sous forme de texte
+                    var objToFind = {
+                        _id: new MongoObjectID(idToFind)
+                    }; // Objet qui va nous servir pour effectuer la recherche
+                    db.collection("posts").remove(objToFind, null, function (error, result) {
+                        //res.redirect('/');
+                        client.close();   
+                    });
                 }
-            });
-        });
+            })
+        })
 });
 // Remove Post
 app.get('/delete/:id', function (req, res) {
