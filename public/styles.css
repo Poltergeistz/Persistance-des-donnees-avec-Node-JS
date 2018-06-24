@@ -4,6 +4,11 @@
     color: #28A745;
 }
 
+.logo {
+    width: 50px;
+    height: 60px;
+}
+
 #post_content {
     min-height: 300px;
 }
@@ -40,7 +45,7 @@
     margin: 4%;
 }
 
-.foot {
+footer {
     color: white;
     text-align: center;
 }
