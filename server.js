@@ -102,7 +102,6 @@ app.post('/search', function (req, res) {
             let db = client.db(dbName);
             let posts = db.collection('posts');
             //cree un index pour pouvoir rechercher par mot clé
-            posts.dropIndex("post_text") 
             posts.createIndex({
                 "author": "text"
             });
