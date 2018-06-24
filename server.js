@@ -26,6 +26,9 @@ const dbName = 'mongo_blog';
 //tmpId sert pour l'edition de posts
 let tmpId;
 
+//array des user connecté
+let userLogged = [];
+
 // Appel index.ejs (accueil) et affiche les 10 derniers posts
 app.get('/', function (req, res) {
     //se connecte a la database
@@ -288,7 +291,13 @@ app.get('/newuser', function (req, res) {
 
 app.post('/adduser/', function (req, res) {
     //cree l'objet user avecle contenu des inputs de newuser
-    let newUser = {
+   //console.log(req.body.username,req.body.usermail,req.body.userpassword)
+    let new_user = new User(req.body.username,req.body.usermail,req.body.userpassword);
+    new_user.signin();
+    res.redirect('/');
+});
+
+    /*let newUser = {
         username: req.body.username,
         mail: req.body.usermail,
         password: req.body.userpassword
@@ -317,7 +326,7 @@ app.post('/adduser/', function (req, res) {
         }
     );
 });
-
+*/
 //user login
 app.get('/userlogin', function (req, res) {
     let user_response = "";
@@ -358,6 +367,8 @@ app.post('/loginuser/', function (req, res) {
                 } else {
                     if (tryLogin.username == results[0].username && tryLogin.password == results[0].password) {
                         console.log('user connection successful');
+                        userLogged.push(tryLogin.username);
+                        console.log(userLogged)
                         client.close();
                         res.redirect('/');
                     } else {
