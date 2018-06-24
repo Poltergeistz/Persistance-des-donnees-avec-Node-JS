@@ -9,7 +9,7 @@
                             <h5 class="card-title text-success">
                                 <%= post.title %>
                             </h5>
-                            <p class="card-text">
+                            <p class="card-text mt-4">
                                 <%= post.post %>
                             </p>
                             <hr>
@@ -35,46 +35,7 @@
                 <i class="fas fa-angle-double-left"></i> Back
             </a>
             </div>
+
             <!--show comments (todo)-->
-            <!--<div class="row">
-                <% posts.forEach(function(comment, index){ %>
-                    <div class="card bg-light col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mb-10 mt-5">
-                        <div class="card-body m-2">
-                            <h5 class="card-title text-success">
-                                <%= comment.title %>
-                            </h5>
-                            <p class="card-text">
-                                <%= comment.post %>
-                            </p>
-                            <hr>
-                            <span class="italic">
-                            <%= comment.author %>
-                        </span>
-                            <span class="italic">
-                            <%= comment.date %>
-                        </span>
-                            <a href="delete/<%= comment._id %>" class="btn btn-outline-success float-right">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </a>
-                            <a href="/editpage/<%= comment._id %>" class="btn btn-outline-success mr-2 float-right">
-                                <i class="fas fa-pencil-alt"></i> Edit
-                        </a>
-                        </div>
-                    </div>
-                    <% }) %>
-            </div>-->
-
-
-
-            <div class="ml-5">
-                <a href="/" class="btn btn-outline-success mt-5 mb-5">
-                <i class="fas fa-angle-double-left"></i> Back
-            </a>
-            </div>
         </div>
-
-
-
-
-
         <%- include partials/footer.ejs %>
