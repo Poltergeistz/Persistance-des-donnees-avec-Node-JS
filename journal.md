@@ -48,8 +48,11 @@
 
     matin : 
     - division du groupe, une partie continue mongo l'autre commence MySQL
-    - finalisation de la partie mongo
-    -ajout du css
+    - ajout du css
+    - creation d'un 2eme repo par securitée(trop peur de faire des betise avec les branches car trop peu de temps)
+    - posts fonctionels
+    -recherche de posts fonctionel
+    -integration de login non fonctionel
 
     apres-midi :
     -
@@ -59,19 +62,21 @@
 
 23/06/2018
 
-    matin : 
+    matin : Mise en place des fichiers SQL.
     -
 
     apres-midi :
     -
 
-    problemes :
-    -
+    problemes : 
+    - frustration pour certaines personnes.
+    - 
 
 24/06/2018
 
     matin : 
-    -
+    -blog mongo fonctionel, pas de gestion utilisateur
+    - systeme de recherche casi OK
 
     apres-midi :
     -
