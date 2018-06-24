@@ -14,11 +14,14 @@ app.set('view engine', 'ejs');
 
 //appel du dossier public (css, stripts.js)
 app.use(express.static(__dirname + '/public'));
+//url de la database
 const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
+//nom de la database
 const dbName = 'mongo_blog';
+//tmpId sert pour l'edition de posts
 let tmpId;
-//app.use('/static', express.static(__dirname + '/public'));
-// Appel index.ejs (accueil)
+
+// Appel index.ejs (accueil) et affiche les 10 derniers posts
 app.get('/', function (req, res) {
     (async function () {
         const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
@@ -55,7 +58,7 @@ app.get('/', function (req, res) {
 
 // POSTS
 
-// Get Post
+// Get Post 
 app.get('/show/:id', function (req, res) {
     (async function () {
         let id = req.params.id
@@ -133,13 +136,12 @@ app.post('/search', function (req, res) {
         }
     );
 })
-//new post inputs
+//newpost page, for typing a new post
 app.get('/newpost', function (req, res) {
     res.render('newpost');
 })
-// Add Post
+// addpost insert the post in database, when we click on newpost submit 
 app.post('/addpost/', function (req, res) {
-    //let id = req.body.search;
     var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var postUser = {
         title: req.body.title,
@@ -170,7 +172,7 @@ app.post('/addpost/', function (req, res) {
 });
 
 
-// Update Post
+//editpage let user edit a post
 app.get('/editpage/:id', function (req, res) {
     let id = req.params.id;
     MongoClient.connect(
@@ -202,7 +204,7 @@ app.get('/editpage/:id', function (req, res) {
             });
         })
 })
-
+//insert the edited post on database, and delete the old one (wip:need to change insert to update)
 app.post('/editpost/', function (req, res) {
     //let id = req.body.search;
     console.log(req.body);
@@ -214,7 +216,7 @@ app.post('/editpost/', function (req, res) {
         date: "updated " + d
     };
     var id = tmpId;
-    console.log("ID",id)
+    console.log("ID", id)
     MongoClient.connect(
         url,
         function (err, client) {
@@ -239,7 +241,7 @@ app.post('/editpost/', function (req, res) {
                     }; // Objet qui va nous servir pour effectuer la recherche
                     db.collection("posts").remove(objToFind, null, function (error, result) {
                         //res.redirect('/');
-                        client.close();   
+                        client.close();
                     });
                 }
             })
@@ -248,30 +250,20 @@ app.post('/editpost/', function (req, res) {
 // Remove Post
 app.get('/delete/:id', function (req, res) {
     let id = req.params.id;
-    console.log(id);
-    //data.posts.splice(data.posts[req.params.id], 1);
-    //commit(data);
-    (async function () {
-        let id = req.params.id
-        console.log(id)
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
-            //supprimer un documents
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            var db = client.db(dbName);
+            var posts = db.collection('posts');
             var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id; // Identifiant, sous forme de texte
+            var idToFind = id;
             var objToFind = {
                 _id: new MongoObjectID(idToFind)
-            }; // Objet qui va nous servir pour effectuer la recherche
+            };
             db.collection("posts").remove(objToFind, null, function (error, result) {
                 if (error) {
                     throw error;
@@ -279,16 +271,13 @@ app.get('/delete/:id', function (req, res) {
                     console.log("document " + id + " removed");
                     res.redirect('/');
                     client.close();
-                    /*res.render('index', {
-                        posts: results
-                    });*/
                 } else {
-                    console.log("document " + id + " does not exist, nothing to remove")
+                    console.log("document " + id + " does not exist, nothing to remove");
+                    client.close();
                 }
             });
-        };
-    })();
-
+        }
+    );
 });
 
 // COMMENTS
