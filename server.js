@@ -2,9 +2,9 @@
 let express = require('express');
 let bodyparser = require('body-parser');
 let ejs = require('ejs');
-/*let Post = require('./Post');
+let Post = require('./Post');
 let Comment = require('./Comment');
-let User = require('./User');*/
+let User = require('./User');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
@@ -279,6 +279,100 @@ app.get('/delete/:id', function (req, res) {
 // Update Comment
 
 // Remove Comment
+
+//Users
+//newuser signin
+app.get('/newuser', function (req, res) {
+    res.render('newuser');
+})
+
+app.post('/adduser/', function (req, res) {
+    //cree l'objet user avecle contenu des inputs de newuser
+    let newUser = {
+        username: req.body.username,
+        mail: req.body.usermail,
+        password: req.body.userpassword
+    };
+    console.log(newUser);
+    //se connecte a la database
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            let db = client.db(dbName);
+            let users = db.collection('users');
+            //insert le nouveau post dans la database
+            users.insert(newUser, null, function (error, results) {
+                if (error) {
+                    throw error;
+                } else {
+                    console.log("Le nouvel user a bien été inséré");
+                    client.close();
+                    res.redirect('/');
+                }
+            });
+        }
+    );
+});
+
+//user login
+app.get('/userlogin', function (req, res) {
+    let user_response = "";
+    res.render('userlogin', {
+        login_response: user_response
+    });
+});
+
+app.post('/loginuser/', function (req, res) {
+    //cree l'objet user avecle contenu des inputs de newuser
+    let tryLogin = {
+        username: req.body.username,
+        password: req.body.userpassword
+    };
+    //console.log(tryLogin);
+    //se connecte a la database
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            let db = client.db(dbName);
+            let users = db.collection('users');
+            //cree un index pour pouvoir rechercher par mot clé
+            users.createIndex({
+                "username": "text"
+            });
+            //lance la recherche par mot clé
+            users.find({
+                $text: {
+                    $search: tryLogin.username
+                }
+            }).toArray(function (err, results) {
+                if (results.length == 0) {
+                    res.render('noresult');
+                } else {
+                    if (tryLogin.username == results[0].username && tryLogin.password == results[0].password) {
+                        console.log('user connection successful');
+                        client.close();
+                        res.redirect('/');
+                    } else {
+                        let user_response = "bad login or password";
+                        res.render('userlogin', {
+                            login_response: user_response
+                        });
+                    }
+                }
+                client.close();
+            });
+        }
+    );
+});
+
 
 // Listen
 app.listen(8080, function (req, res) {
