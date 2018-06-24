@@ -2,9 +2,12 @@
 let express = require('express');
 let bodyparser = require('body-parser');
 let ejs = require('ejs');
-let Post = require('./Post');
+/*let Post = require('./Post');
 let Comment = require('./Comment');
-let User = require('./User');
+let User = require('./User');*/
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
 // Set express
 let app = express();
 app.use(bodyparser.urlencoded({
@@ -14,6 +17,8 @@ app.set('view engine', 'ejs');
 
 //appel du dossier public (css, stripts.js)
 app.use(express.static(__dirname + '/public'));
+
+
 //url de la database
 const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
 //nom de la database
@@ -23,27 +28,20 @@ let tmpId;
 
 // Appel index.ejs (accueil) et affiche les 10 derniers posts
 app.get('/', function (req, res) {
-    (async function () {
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
+    //se connecte a la database
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            let db = client.db(dbName);
             let last10Post = [];
-            //afficher un document
+            //afficher les 10 derniers posts
             db.collection("posts").find().toArray(function (error, results) {
                 if (error) throw error;
-                //console.log("results: ", results)
-                //console.log("last 10 posts:")
-                for (var i = results.length - 1; i > results.length - 11; i--) {
-                    //console.log(results[i], i)
+                for (let i = results.length - 1; i > results.length - 11; i--) {
                     last10Post.push(results[i])
                 }
                 res.render('index', {
@@ -52,56 +50,45 @@ app.get('/', function (req, res) {
                 client.close();
             });
         }
-    })();
-
-})
+    );
+});
 
 // POSTS
 
 // Get Post 
 app.get('/show/:id', function (req, res) {
-    (async function () {
-        let id = req.params.id
-        console.log(id)
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
+    let id = req.params.id
+    MongoClient.connect(
+        url,
+        function (err, client) {
+            if (err) {
+                console.log(err);
+                db.close();
+            }
+            let db = client.db(dbName);
             //supprimer un documents
-            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id; // Identifiant, sous forme de texte
-            //console.log(id);
-            var objToFind = {
+            let MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+            let idToFind = id; // Identifiant, sous forme de texte
+            let objToFind = {
                 _id: new MongoObjectID(idToFind)
             }; // Objet qui va nous servir pour effectuer la recherche
             db.collection("posts").find(objToFind).toArray(function (error, results) {
                 if (error) {
                     throw error;
                 } else {
-                    //let postArr = [results]
-                    //console.log("document " + id + " removed");
                     res.render('showPost', {
                         posts: results
                     });
                     client.close();
                 }
             });
-        };
-    })();
-
+        }
+    );
 });
+
 // search post
 app.post('/search', function (req, res) {
     let id = req.body.search;
-    console.log(id);
     MongoClient.connect(
         url,
         function (err, client) {
@@ -109,46 +96,48 @@ app.post('/search', function (req, res) {
                 console.log(err);
                 db.close();
             }
-            var db = client.db(dbName);
-            //console.log('youpi');
-            var posts = db.collection('posts');
+            let db = client.db(dbName);
+            let posts = db.collection('posts');
+            //cree un index pour pouvoir rechercher par mot clé
             posts.createIndex({
                 "post": "text"
             });
+            //lance la recherche par mot clé
             posts.find({
                 $text: {
                     $search: id
                 }
-                //post: id
             }).toArray(function (err, results) {
                 console.log(results)
                 if (results.length == 0) {
                     res.render('noresult');
-                    console.log("no result")
                 } else {
                     res.render('showPost', {
                         posts: results
                     });
                 }
-                console.log(results);
                 client.close();
             });
         }
     );
-})
+});
+
 //newpost page, for typing a new post
 app.get('/newpost', function (req, res) {
     res.render('newpost');
 })
 // addpost insert the post in database, when we click on newpost submit 
 app.post('/addpost/', function (req, res) {
-    var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var postUser = {
+    //genere la date actuelle au format UTC
+    let d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    //cree l'objet postUser avecle contenu des inputs de newpost
+    let postUser = {
         title: req.body.title,
         post: req.body.content,
         author: req.body.author,
         date: d
     };
+    //se connecte a la database
     MongoClient.connect(
         url,
         function (err, client) {
@@ -156,9 +145,9 @@ app.post('/addpost/', function (req, res) {
                 console.log(err);
                 db.close();
             }
-            var db = client.db(dbName);
-            //console.log('youpi');
-            var posts = db.collection('posts');
+            let db = client.db(dbName);
+            let posts = db.collection('posts');
+            //insert le nouveau post dans la database
             db.collection("posts").insert(postUser, null, function (error, results) {
                 if (error) {
                     throw error;
@@ -168,13 +157,14 @@ app.post('/addpost/', function (req, res) {
                     res.redirect('/');
                 }
             });
-        });
+        }
+    );
 });
 
-
-//editpage let user edit a post
+//editpage permet de modifier un ancien post
 app.get('/editpage/:id', function (req, res) {
     let id = req.params.id;
+    //se connecte a la database
     MongoClient.connect(
         url,
         function (err, client) {
@@ -182,16 +172,16 @@ app.get('/editpage/:id', function (req, res) {
                 console.log(err);
                 db.close();
             }
-            var db = client.db(dbName);
-            //console.log('youpi');
-            var posts = db.collection('posts');
-
-            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id; // Identifiant, sous forme de texte
+            let db = client.db(dbName);
+            let posts = db.collection('posts');
+            let MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+            let idToFind = id; // Identifiant, sous forme de texte
+            //stocke l'id dans tmpId, pour pouvoir le supprimer apres edition
             tmpId = idToFind;
-            var objToFind = {
+            let objToFind = {
                 _id: new MongoObjectID(idToFind)
             };
+            //cherche le post par son Id et l'affiche dans editpage
             db.collection("posts").findOne(objToFind, function (error, results) {
                 console.log(results)
                 if (error) {
@@ -202,21 +192,22 @@ app.get('/editpage/:id', function (req, res) {
                     });
                 }
             });
-        })
-})
+        }
+    );
+});
+
 //insert the edited post on database, and delete the old one (wip:need to change insert to update)
 app.post('/editpost/', function (req, res) {
-    //let id = req.body.search;
-    console.log(req.body);
-    var d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var postUser = {
+    //genere la date heure actuelle au format UTC
+    let d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    let postUser = {
         title: req.body.title,
         post: req.body.content,
         author: req.body.author,
         date: "updated " + d
     };
-    var id = tmpId;
-    console.log("ID", id)
+    let id = tmpId;
+    //se connecte a la database
     MongoClient.connect(
         url,
         function (err, client) {
@@ -224,9 +215,8 @@ app.post('/editpost/', function (req, res) {
                 console.log(err);
                 db.close();
             }
-            var db = client.db(dbName);
-            //console.log('youpi');
-            var posts = db.collection('posts');
+            let db = client.db(dbName);
+            let posts = db.collection('posts');
             db.collection("posts").insert(postUser, null, function (error, results) {
                 if (error) {
                     throw error;
@@ -234,18 +224,18 @@ app.post('/editpost/', function (req, res) {
                     console.log("Le document a bien été inséré");
                     res.redirect('/');
                     //supprimer un documents
-                    var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-                    var idToFind = id; // Identifiant, sous forme de texte
-                    var objToFind = {
+                    let MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+                    let idToFind = id; // Identifiant, sous forme de texte
+                    let objToFind = {
                         _id: new MongoObjectID(idToFind)
                     }; // Objet qui va nous servir pour effectuer la recherche
                     db.collection("posts").remove(objToFind, null, function (error, result) {
-                        //res.redirect('/');
                         client.close();
                     });
                 }
-            })
-        })
+            });
+        }
+    );
 });
 // Remove Post
 app.get('/delete/:id', function (req, res) {
@@ -257,11 +247,11 @@ app.get('/delete/:id', function (req, res) {
                 console.log(err);
                 db.close();
             }
-            var db = client.db(dbName);
-            var posts = db.collection('posts');
-            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id;
-            var objToFind = {
+            let db = client.db(dbName);
+            let posts = db.collection('posts');
+            let MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
+            let idToFind = id;
+            let objToFind = {
                 _id: new MongoObjectID(idToFind)
             };
             db.collection("posts").remove(objToFind, null, function (error, result) {
@@ -295,8 +285,6 @@ app.listen(8080, function (req, res) {
     console.log('Server Online')
 })
 
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 
 
 
@@ -305,185 +293,4 @@ const assert = require('assert');
 function tester() {
     return "hello";
 }
-module.exports = tester;
-
-
-
-
-
-
-
-
-
-function newPost(title, post, date, author) {
-    var postUser = new Post(title, post, date, author);
-    //console.log("newpot", postUser)
-    (async function () {
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
-            //ajouter un document
-            db.collection("posts").insert(postUser, null, function (error, results) {
-                if (error) throw error;
-                console.log("Le document a bien été inséré");
-                client.close();
-            });
-        }
-    })();
-}
-
-function showLastPosts() {
-    (async function () {
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
-            //afficher un document
-            db.collection("posts").find().toArray(function (error, results) {
-                if (error) throw error;
-                //console.log("results: ", results)
-                console.log("last 10 posts:")
-                for (var i = results.length - 1; i > results.length - 11; i--) {
-                    console.log(results[i], i)
-                }
-                client.close();
-            });
-        }
-    })();
-}
-var c;
-
-function showPost(id) {
-    (async function () {
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
-            //afficher un document
-            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id; // Identifiant, sous forme de texte
-            var objToFind = {
-                _id: new MongoObjectID(idToFind)
-            };
-            db.collection("posts").find(objToFind).toArray(function (error, results) {
-                if (error) throw error;
-                //console.log("results: ", results)
-                console.log("post:")
-                //for (var i = results.length - 1; i > results.length - 11; i--) {
-                console.log(results);
-                c = results;
-                //}
-                client.close();
-            });
-        }
-    })();
-}
-
-function searchPost(id) {
-    (async function () {
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
-            //rechercher un document par id
-            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id; // Identifiant, sous forme de texte
-            var objToFind = {
-                _id: new MongoObjectID(idToFind)
-            };
-            db.collection("posts").findOne(objToFind, function (error, result) {
-                if (error) {
-                    throw error;
-                }
-                if (result == null) {
-                    console.log("search: document not found")
-                } else {
-                    console.log("search: ", result);
-                }
-            });
-        }
-    })();
-}
-
-function removePost(id) {
-    console.log("id: ", id);
-    (async function () {
-        const url = 'mongodb://admin:HG13admin@ds161740.mlab.com:61740/mongo_blog';
-        let client;
-        try {
-            // Use connect method to connect to the Server
-            client = await MongoClient.connect(url);
-            const db = client.db('dbName');
-        } catch (err) {
-            console.log(err.stack);
-        }
-        if (client) {
-            const dbName = 'mongo_blog'
-            const db = client.db(dbName);
-            //supprimer un documents
-            var MongoObjectID = require("mongodb").ObjectID; // Il nous faut ObjectID
-            var idToFind = id; // Identifiant, sous forme de texte
-            var objToFind = {
-                _id: new MongoObjectID(idToFind)
-            }; // Objet qui va nous servir pour effectuer la recherche
-            db.collection("posts").remove(objToFind, null, function (error, result) {
-                if (error) {
-                    throw error;
-                } else if (id) {
-                    console.log("document " + id + " removed")
-                } else {
-                    console.log("document " + id + " does not exist, nothing to remove")
-                }
-            });
-        };
-    })();
-}
-//newPost('tutoooo', 'je suis encore un test', '12/06/05', 'bobob');
-//showLastPosts();
-//showPost('5b2a200e1a969a137fefcc3c');
-//console.log('ccc' +c);
-//searchPost('5b2918b8c47b5811c031fbe3')
-//removePost('5b291860ea629f1182563fee')
-
-
-
-// test chai
-
-function tester() {
-    return 'hello world';
-};
-
 module.exports = tester;
