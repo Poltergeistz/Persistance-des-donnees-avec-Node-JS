@@ -69,17 +69,17 @@
     -
 
     problemes : 
-    - frustration pour certaines personnes.
+    - 
     - 
 
 24/06/2018
 
     matin : 
-    -blog mongo fonctionel, pas de gestion utilisateur
+    -blog mongo fonctionel, pas de gestion utilisateur et pas commentaires.
     - systeme de recherche casi OK
 
     apres-midi :
-    -
+    - 
 
     problemes :
-    -
+    -frustration pour certaines personnes.
